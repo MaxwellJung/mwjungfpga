@@ -1,7 +1,7 @@
 module fsm (
     input logic clk,
     input logic reset,
-    input int data[3:0],
+    input int data [4],
     output int o
 );
 
@@ -33,10 +33,10 @@ module fsm (
 
     always_comb begin
         case (state)
-            S0: o = data[3];
-            S1: o = data[2];
-            S2: o = data[1];
-            S3: o = data[0];
+            S0: o = data[0];
+            S1: o = data[1];
+            S2: o = data[2];
+            S3: o = data[3];
         endcase
     end
 

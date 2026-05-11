@@ -1,5 +1,5 @@
 module counter #(
-    parameter NUM_BITS = 8
+    parameter int NUM_BITS = 8
 ) (
     input logic clk,
     input logic reset,
