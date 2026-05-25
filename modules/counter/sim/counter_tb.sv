@@ -1,6 +1,9 @@
 `timescale 1ns / 1ps
 
-module counter_tb ();
+// Import the C library function
+import "DPI-C" function string sv_getenv(input string env_name);
+
+module counter_tb;
     localparam int NumBits = 8;
     localparam int ClkPeriod = 10; // 100 MHz clock
 
@@ -23,7 +26,8 @@ module counter_tb ();
         clk = ~clk;
 
     initial begin
-        $dumpfile("counter_tb.vcd");
+        string output_dir = sv_getenv("TEST_UNDECLARED_OUTPUTS_DIR");
+        $dumpfile({output_dir, "/counter_tb.vcd"});
         $dumpvars(0, counter_tb);
     end
 

@@ -11,20 +11,24 @@ verilog_library(
 )
 
 verilator_cc_library(
-    name = "counter_tb_verilated",
+    name = "counter_tb_verilated_main",
     module = ":counter",
     module_top = "counter_tb",
+    timing = True,
     trace = True,
     vopts = [
         "-Wall",
-        "--timing",
         "--main",
     ],
 )
 
 cc_test(
     name = "sim",
+    srcs = [
+        "//:sim_src/sc_time_stamp.cc",
+        "//:sim_src/sv_getenv.cpp",
+    ],
     deps = [
-        ":counter_tb_verilated", 
+        ":counter_tb_verilated_main", 
     ],
 )

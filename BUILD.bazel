@@ -1,5 +1,4 @@
-load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
-
-buildifier(
-    name = "buildifier",
-)
+exports_files([
+  "sim_src/sv_getenv.cpp",
+  "sim_src/sc_time_stamp.cc"
+])
