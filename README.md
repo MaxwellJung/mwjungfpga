@@ -7,12 +7,12 @@ To run all tests:
 bazel test //...
 ```
 
-To test all modules:
+To test all RTL modules:
 ```bash
-bazel test //modules/...
+bazel test //rtl/...
 ```
 
-To test specific modules
+To test specific RTL modules
 ```bash
-bazel test //modules/counter/...
+bazel test //rtl/counter/...
 ```
