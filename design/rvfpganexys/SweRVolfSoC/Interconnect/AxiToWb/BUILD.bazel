@@ -1,0 +1,7 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+
+verilog_library(
+  name = "axi_to_wb",
+  srcs = ["axi2wb.v"],
+  visibility = ["//visibility:public"],
+)

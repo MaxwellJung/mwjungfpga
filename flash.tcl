@@ -13,7 +13,7 @@ current_hw_device [lindex [get_hw_devices] 0]
 refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]
 
 # Set the bitstream file (update this path)
-set_property PROGRAM.FILE "bazel-out/k8-fastbuild/bin/design/led/led_top_vivado.bit" [lindex [get_hw_devices] 0]
+set_property PROGRAM.FILE "bazel-bin/design/rvfpganexys/vivado_rvfpganexys.bit" [lindex [get_hw_devices] 0]
 
 # Program the device
 puts "Programming FPGA..."

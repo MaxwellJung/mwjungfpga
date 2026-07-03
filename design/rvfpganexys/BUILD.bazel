@@ -1,0 +1,54 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
+load("@rules_vivado//vivado:defs.bzl", "vivado_flow")
+
+verilog_library(
+  name = "rvfpganexys",
+  srcs = [
+    "rvfpganexys.sv",
+    "OtherSources/clk_gen_nexys.v",
+    "OtherSources/bscan_tap.sv",
+  ],
+  data = [
+    "rvfpganexys.xdc",
+    "//design/rvfpganexys/SweRVolfSoC/BootROM:sw/boot_main.mem",
+  ],
+  deps = [
+    "//design/rvfpganexys/SweRVolfSoC:swervolf_core",
+    "//design/rvfpganexys/SweRVolfSoC/Interconnect/AxiInterconnect/pulp-platform.org__axi_0.25.0:axi_0.25.0",
+    "//design/rvfpganexys/LiteDRAM:litedram",
+  ],
+)
+
+vivado_flow(
+  name = "vivado_rvfpganexys",
+  module = ":rvfpganexys",
+  module_top = "rvfpganexys",
+  part_number = "xc7a100tcsg324-1",
+)
+
+verilog_library(
+  name = "rvfpgasim",
+  srcs = [
+    "rvfpgasim.v",
+    "axi_mem_wrapper.v",
+    "dmi_wrapper.v",
+    "rvjtag_tap.sv",
+    "dmi_jtag_to_core_sync.v",
+  ],
+  deps = [
+    "//design/rvfpganexys/SweRVolfSoC:swervolf_core",
+  ]
+)
+
+verilator_cc_library(
+  name = "rvfpgasim_verilated",
+  module = ":rvfpgasim",
+  module_top = "rvfpgasim",
+  trace = True,
+  timing = True,
+  vopts = [
+    "-Wall",
+  ],
+)
+

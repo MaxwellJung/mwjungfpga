@@ -1,0 +1,27 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+
+verilog_library(
+  name = "swerv_eh1_core_complex",
+  srcs = [
+    "swerv_wrapper_dmi.sv",
+    "include/swerv_types.sv",
+    "swerv.sv",
+    "mem.sv",
+  ] + glob([
+    "lib/*.sv",
+    "dbg/*.sv",
+    "ifu/*.sv",
+    "dec/*.sv",
+    "exu/*.sv",
+    "lsu/*.sv",
+    "pic/*.sv",
+    "dma/*.sv",
+  ]),
+  hdrs = [
+    "include/common_defines.vh",
+    "include/global.vh",
+    "include/build.vh",
+    "include/pic_map_auto.vh",
+  ],
+  visibility = ["//visibility:public"],
+)

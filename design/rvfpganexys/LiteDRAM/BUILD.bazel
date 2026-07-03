@@ -1,0 +1,16 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+
+verilog_library(
+  name = "litedram",
+  srcs = [
+    "litedram_core.v",
+    "litedram_top.v",
+  ],
+  data = [
+    "liteDRAM.xdc",
+  ],
+  deps = [
+    "//design/rvfpganexys/LiteDRAM/serv_1.0.2:serv_1.0.2",
+  ],
+  visibility = ["//visibility:public"],
+)

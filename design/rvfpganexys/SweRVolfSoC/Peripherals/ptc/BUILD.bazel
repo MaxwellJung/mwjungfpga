@@ -1,0 +1,12 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+
+verilog_library(
+  name = "ptc",
+  srcs = [
+    "ptc_top.v",
+  ],
+  hdrs = [
+    "ptc_defines.vh",
+  ],
+  visibility = ["//visibility:public"],
+)

@@ -3,9 +3,9 @@ module(
   version = "0.0.1",
 )
 
-bazel_dep(name = "rules_verilog", version = "1.1.1")
+bazel_dep(name = "rules_verilog", version = "1.4.2")
 
-bazel_dep(name = "rules_verilator", version = "1.0.0")
+bazel_dep(name = "rules_verilator", version = "1.1.1")
 # Uncomment below to use the forked version of rules_verilator.
 # git_override(
 #     module_name = "rules_verilator",
@@ -24,12 +24,12 @@ register_toolchains(
 
 bazel_dep(name = "rules_cc", version = "0.2.17")
 
-bazel_dep(name = "rules_vivado", version = "0.1.0")
+bazel_dep(name = "rules_vivado", version = "0.4.1")
 # Uncomment below to use the forked version of rules_vivado.
-git_override(
-    module_name = "rules_vivado",
-    branch = "hw-bzl",
-    remote = "https://github.com/UebelAndre/rules_vivado.git",
-)
+# git_override(
+#     module_name = "rules_vivado",
+#     branch = "hw-bzl",
+#     remote = "https://github.com/UebelAndre/rules_vivado.git",
+# )
 
 register_toolchains("//tools/vivado:vivado_toolchain")
