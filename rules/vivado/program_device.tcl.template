@@ -1,0 +1,28 @@
+# Define the bitstream path (injected by Bazel)
+set bitstream_file "{{BITSTREAM}}"
+
+# Open the hardware manager and connect to the local server
+open_hw_manager
+connect_hw_server -url localhost:3121
+
+# Open the first available target
+current_hw_target [lindex [get_hw_targets *] 0]
+open_hw_target
+
+# Select the first device on the JTAG chain
+set target_device [lindex [get_hw_devices] 0]
+current_hw_device $target_device
+refresh_hw_device -update_hw_probes false $target_device
+
+# Assign the bitstream file to the device
+set_property PROGRAM.FILE $bitstream_file $target_device
+
+# Program the device
+puts "Programming FPGA with $bitstream_file..."
+program_hw_devices $target_device
+
+# Graceful cleanup to release locks on the hardware
+close_hw_target
+disconnect_hw_server
+close_hw_manager
+puts "FPGA Programming complete."

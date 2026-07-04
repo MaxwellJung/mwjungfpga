@@ -1,6 +1,7 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_vivado//vivado:defs.bzl", "vivado_flow")
+load("//rules:defs.bzl", "vivado_program_device")
 
 verilog_library(
   name = "rvfpganexys",
@@ -27,6 +28,11 @@ vivado_flow(
   part_number = "xc7a100tcsg324-1",
 )
 
+vivado_program_device(
+  name = "program_nexys",
+  bitstream = ":vivado_rvfpganexys",
+)
+
 verilog_library(
   name = "rvfpgasim",
   srcs = [
@@ -51,4 +57,3 @@ verilator_cc_library(
     "-Wall",
   ],
 )
-

@@ -1,4 +1,4 @@
-module led_top (
+module led (
   input wire clk_i,
   input wire rstn_i,
 
