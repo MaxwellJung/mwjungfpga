@@ -1,28 +1,25 @@
-# hdl-archive
-Monorepo for all HDL projects.
+# mwjungfpga
+Monorepo for all FPGA hobby projects by Maxwell Jung.
 
-## FPGA Top Level Designs
+## Hardware
 
-### led
+### Top Level Designs
+led: Counts up in binary.
 ```bash
 bazel run //design/led:program_nexys
 ```
 
-### rvfpganexys
+rvfpganexys: SweRVolf (RISC-V SoC) on FPGA.
 ```bash
 bazel run //design/rvfpganexys:program_nexys
 ```
 
-## Bazel Commands
-
-### Build
+### Bazel
 
 To build all targets:
 ```bash
 bazel build //...
 ```
-
-### Test
 
 To test all targets:
 ```bash
@@ -38,3 +35,7 @@ To test specific RTL modules:
 ```bash
 bazel test //rtl/counter/...
 ```
+
+## Software
+
+TODO
