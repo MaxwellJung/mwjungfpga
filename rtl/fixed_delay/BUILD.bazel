@@ -1,4 +1,3 @@
-load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
@@ -34,15 +33,6 @@ verilator_cc_library(
     ],
 )
 
-cc_binary(
-    name = "sim_bin",
-    srcs = [_VERILATOR_HARNESS + ":cpp_timing"],
-    deps = [
-        ":fixed_delay_tb_main",
-        _VERILATOR_HARNESS + ":cpp_harness",
-    ],
-)
-
 cc_test(
     name = "sim_test",
     size = "small",
@@ -53,9 +43,11 @@ cc_test(
     ],
 )
 
+# Runs the sim_test binary directly and, with --gtkwave, opens the waveform.
 verilator_sim_run(
     name = "sim",
-    sim_bin = ":sim_bin",
+    testonly = True,
+    sim_bin = ":sim_test",
     tags = [
         "gui",
         "manual",
