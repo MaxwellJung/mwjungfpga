@@ -2,3 +2,20 @@
 #   bazel build --config=verilator_lint //rtl/...
 build:verilator_lint --aspects=@rules_verilator//verilator:defs.bzl%verilator_lint_aspect
 build:verilator_lint --output_groups=verilator_lint_checks
+
+# --- Reproducibility ---
+# Keep actions from inheriting the full client environment (better caching and
+# hermeticity, as in abseil/opentitan).
+build --incompatible_strict_action_env
+
+# Fail the build if MODULE.bazel.lock is stale instead of silently updating it.
+common --lockfile_mode=error
+
+# --- Build UX ---
+build --show_timestamps
+
+# Automatically apply build:linux / build:macos / build:windows sections.
+common --enable_platform_specific_config
+
+# Let contributors layer local overrides without editing version control.
+try-import %workspace%/user.bazelrc

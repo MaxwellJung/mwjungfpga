@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  rtl:
+  bazel:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,8 +23,12 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name != 'pull_request' }}
 
-      - name: Test RTL simulations
-        run: bazelisk test //rtl/...
+      # Vivado targets are tagged "manual", so //... excludes them here.
+      - name: Build all targets
+        run: bazelisk build //...
+
+      - name: Test all targets
+        run: bazelisk test //...
 
       - name: Verilator lint RTL
         run: bazelisk build --config=verilator_lint //rtl/...

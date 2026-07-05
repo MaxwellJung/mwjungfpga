@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-import sim_lib_pkg::output_dir;
+import verilator_harness_pkg::output_dir;
 
 module counter_tb;
   localparam int InitialCount = 3;

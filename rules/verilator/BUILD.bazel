@@ -1,20 +1,22 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
+exports_files(["verilator_sim.sh.tpl"])
+
 verilog_library(
-    name = "sv_sim_lib",
-    srcs = glob(["*.sv"]),
+    name = "sv_harness",
+    srcs = ["verilator_harness_pkg.sv"],
     visibility = ["//visibility:public"],
 )
 
 cc_library(
-    name = "cpp_sim_lib",
+    name = "cpp_harness",
     srcs = ["sv_getenv.cpp"],
     visibility = ["//visibility:public"],
 )
 
 filegroup(
-    name = "cpp_sim_timing",
+    name = "cpp_timing",
     srcs = ["sc_time_stamp.cc"],
     visibility = ["//visibility:public"],
 )
