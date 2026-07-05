@@ -1,6 +1,8 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
+exports_files(["verilator_sim.sh.tpl"])
+
 verilog_library(
     name = "sv_harness",
     srcs = ["verilator_harness_pkg.sv"],
