@@ -3,38 +3,92 @@ Monorepo for all FPGA hobby projects by Maxwell Jung.
 
 ## Hardware
 
-### Top Level Designs
-led: Counts up in binary.
+### Top level designs
+
+**led** — counts up in binary.
+
 ```bash
 bazel run //design/led:program_nexys
 ```
 
-rvfpganexys: SweRVolf (RISC-V SoC) on FPGA.
+**rvfpganexys** — SweRVolf (RISC-V SoC) on FPGA.
+
 ```bash
 bazel run //design/rvfpganexys:program_nexys
 ```
 
-### Bazel
+## RTL simulation
 
-To build all targets:
-```bash
-bazel build //...
-```
+RTL testbenches are built with [rules_verilator](https://github.com/UebelAndre/rules_verilator) and wired up via the `verilator_sim` macro in `rules/verilator/`. Each module gets:
 
-To test all targets:
-```bash
-bazel test //...
-```
+| Target | Purpose |
+|--------|---------|
+| `:sim_test` | Headless simulation for CI (`bazel test`) |
+| `:sim` | Interactive run (`bazel run`); pass `--gtkwave` to open the VCD in GTKWave |
 
-To test all RTL modules:
+Run all RTL simulations:
+
 ```bash
 bazel test //rtl/...
 ```
 
-To test specific RTL modules:
+Run a single testbench:
+
 ```bash
-bazel test //rtl/counter/...
+bazel test //rtl/counter:sim_test
 ```
+
+Run interactively and view the waveform (GTKWave must be on `PATH`):
+
+```bash
+bazel run //rtl/counter:sim -- --gtkwave
+```
+
+## Bazel
+
+This repo uses [Bazelisk](https://github.com/bazelbuild/bazelisk) with Bazel **9.1.1** (see `.bazelversion`).
+
+Build everything (requires a local Vivado install for bitstream targets):
+
+```bash
+bazel build //...
+```
+
+Test RTL simulations only (no Vivado required):
+
+```bash
+bazel test //rtl/...
+```
+
+Lint RTL with Verilator:
+
+```bash
+bazel build --config=verilator_lint //rtl/...
+```
+
+Format and lint Starlark (`BUILD.bazel`, `.bzl` files):
+
+```bash
+bazel run //:buildifier
+```
+
+### Custom rules
+
+Starlark rules live under `rules/` and are exported from `rules/defs.bzl`:
+
+- `verilator_sim` — Verilator testbench build, CI test, and interactive sim with optional GTKWave
+- `vivado_program_device` — program an FPGA from a generated bitstream
+
+Shared Verilator simulation support (DPI getenv, `sc_time_stamp`, VCD output paths) lives in `rules/verilator/`.
+
+## CI
+
+GitHub Actions runs on pushes and pull requests to `main`:
+
+- `bazelisk test //rtl/...`
+- `bazelisk build --config=verilator_lint //rtl/...`
+
+See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Software
 
