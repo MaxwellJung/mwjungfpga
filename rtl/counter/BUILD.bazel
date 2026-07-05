@@ -1,6 +1,6 @@
-load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+load("//sim_lib:verilator_sim.bzl", "verilator_sim")
 
 verilog_library(
     name = "counter",
@@ -31,12 +31,8 @@ verilator_cc_library(
     ],
 )
 
-cc_test(
+verilator_sim(
     name = "sim",
-    size = "small",
-    srcs = ["//sim_lib:cpp_sim_timing"],
-    deps = [
-        ":counter_tb_verilated",
-        "//sim_lib:cpp_sim_lib",
-    ],
+    verilated = ":counter_tb_verilated",
+    waveform = "counter_tb.vcd",
 )

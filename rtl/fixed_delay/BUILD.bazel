@@ -1,6 +1,6 @@
-load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+load("//sim_lib:verilator_sim.bzl", "verilator_sim")
 
 verilog_library(
     name = "fixed_delay",
@@ -30,12 +30,8 @@ verilator_cc_library(
     ],
 )
 
-cc_test(
+verilator_sim(
     name = "sim",
-    size = "small",
-    srcs = ["//sim_lib:cpp_sim_timing"],
-    deps = [
-        ":fixed_delay_tb_main",
-        "//sim_lib:cpp_sim_lib",
-    ],
+    verilated = ":fixed_delay_tb_main",
+    waveform = "fixed_delay_tb.vcd",
 )
