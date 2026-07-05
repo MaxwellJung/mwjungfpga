@@ -1,6 +1,10 @@
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
-load("//rules:defs.bzl", "verilator_sim")
+load("//rules:defs.bzl", "verilator_sim_run")
+
+_VERILATOR_HARNESS = "//rules/verilator"
 
 verilog_library(
     name = "fixed_delay",
@@ -14,7 +18,7 @@ verilog_library(
     top_module = "fixed_delay_tb",
     deps = [
         ":fixed_delay",
-        "//rules/verilator:sv_harness",
+        _VERILATOR_HARNESS + ":sv_harness",
     ],
 )
 
@@ -30,8 +34,28 @@ verilator_cc_library(
     ],
 )
 
-verilator_sim(
+cc_binary(
+    name = "sim_bin",
+    srcs = [_VERILATOR_HARNESS + ":cpp_timing"],
+    deps = [
+        ":fixed_delay_tb_main",
+        _VERILATOR_HARNESS + ":cpp_harness",
+    ],
+)
+
+cc_test(
+    name = "sim_test",
+    size = "small",
+    srcs = [_VERILATOR_HARNESS + ":cpp_timing"],
+    deps = [
+        ":fixed_delay_tb_main",
+        _VERILATOR_HARNESS + ":cpp_harness",
+    ],
+)
+
+verilator_sim_run(
     name = "sim",
-    verilated = ":fixed_delay_tb_main",
+    sim_bin = ":sim_bin",
+    tags = ["manual"],
     waveform = "fixed_delay_tb.vcd",
 )

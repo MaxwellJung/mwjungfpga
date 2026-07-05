@@ -1,9 +1,4 @@
-"""Macro for Verilator simulation test + interactive run with optional GTKWave."""
-
-load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
-load("@rules_cc//cc:cc_test.bzl", "cc_test")
-
-_HARNESS = "//rules/verilator"
+"""Rule to run a Verilator simulation with optional GTKWave."""
 
 def _verilator_sim_run_impl(ctx):
     sim_bin = ctx.executable.sim_bin
@@ -112,8 +107,8 @@ exec gtkwave "$VCD"
         ),
     ]
 
-_verilator_sim_run = rule(
-    doc = "Run a Verilator simulation; pass --gtkwave to open the VCD afterward.",
+verilator_sim_run = rule(
+    doc = "Run a Verilator cc_binary; pass --gtkwave to open the VCD afterward.",
     implementation = _verilator_sim_run_impl,
     executable = True,
     attrs = {
@@ -129,60 +124,3 @@ _verilator_sim_run = rule(
         ),
     },
 )
-
-def verilator_sim(
-        name,
-        verilated,
-        waveform,
-        size = "small",
-        sim_tags = [],
-        run_tags = ["manual"],
-        **kwargs):
-    """Create Verilator simulation targets.
-
-    Targets:
-      :{name}_bin  — cc_binary (private)
-      :{name}_test — cc_test for CI (`bazel test //rtl/...`)
-      :{name}      — runnable sim (`bazel run ... -- --gtkwave`)
-
-    Args:
-      name: Base target name (typically "sim").
-      verilated: Verilator library label for the testbench top.
-      waveform: VCD filename written under TEST_UNDECLARED_OUTPUTS_DIR.
-      size: cc_test size attribute.
-      sim_tags: Tags for the cc_test and cc_binary.
-      run_tags: Tags for the run target.
-      **kwargs: Additional cc_test attributes (for example, visibility).
-    """
-    bin_name = name + "_bin"
-    test_name = name + "_test"
-
-    cc_binary(
-        name = bin_name,
-        srcs = [_HARNESS + ":cpp_timing"],
-        deps = [
-            verilated,
-            _HARNESS + ":cpp_harness",
-        ],
-        tags = sim_tags,
-        visibility = ["//visibility:private"],
-    )
-
-    cc_test(
-        name = test_name,
-        size = size,
-        srcs = [_HARNESS + ":cpp_timing"],
-        deps = [
-            verilated,
-            _HARNESS + ":cpp_harness",
-        ],
-        tags = sim_tags,
-        **kwargs
-    )
-
-    _verilator_sim_run(
-        name = name,
-        sim_bin = ":" + bin_name,
-        waveform = waveform,
-        tags = run_tags,
-    )
