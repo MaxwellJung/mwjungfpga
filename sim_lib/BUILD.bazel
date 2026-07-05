@@ -9,10 +9,12 @@ verilog_library(
 
 cc_library(
     name = "cpp_sim_lib",
-    srcs = glob([
-        "*.cpp",
-        "*.cc",
-    ]),
+    srcs = ["sv_getenv.cpp"],
     visibility = ["//visibility:public"],
-    deps = ["@rules_verilator//verilator:verilated_runtime"],
+)
+
+filegroup(
+    name = "cpp_sim_timing",
+    srcs = ["sc_time_stamp.cc"],
+    visibility = ["//visibility:public"],
 )

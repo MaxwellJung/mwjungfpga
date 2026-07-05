@@ -34,6 +34,7 @@ verilator_cc_library(
 cc_test(
     name = "sim",
     size = "small",
+    srcs = ["//sim_lib:cpp_sim_timing"],
     deps = [
         ":counter_tb_verilated",
         "//sim_lib:cpp_sim_lib",
