@@ -1,43 +1,38 @@
-load("@rules_verilog//verilog:defs.bzl", "verilog_library")
-load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
+load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "fixed_delay",
-  srcs = [
-    "fixed_delay.sv",
-  ],
+    name = "fixed_delay",
+    srcs = ["fixed_delay.sv"],
 )
 
 verilog_library(
-  name = "fixed_delay_tb",
-  srcs = [
-    "fixed_delay_tb.sv",
-  ],
-  deps = [
-    ":fixed_delay",
-    "//sim_lib:sv_sim_lib",
-  ],
+    name = "fixed_delay_tb",
+    srcs = ["fixed_delay_tb.sv"],
+    deps = [
+        ":fixed_delay",
+        "//sim_lib:sv_sim_lib",
+    ],
 )
 
 verilator_cc_library(
-  name = "fixed_delay_tb_main",
-  module = ":fixed_delay_tb",
-  module_top = "fixed_delay_tb",
-  timing = True,
-  trace = True,
-  vopts = [
-    "-Wall",
-    "--main",
-  ],
+    name = "fixed_delay_tb_main",
+    module = ":fixed_delay_tb",
+    module_top = "fixed_delay_tb",
+    timing = True,
+    trace = True,
+    vopts = [
+        "-Wall",
+        "--main",
+    ],
 )
 
 cc_test(
-  name = "sim",
-  srcs = [
-    "//sim_lib:cpp_sim_lib",
-  ],
-  deps = [
-    ":fixed_delay_tb_main", 
-  ],
+    name = "sim",
+    size = "small",
+    deps = [
+        ":fixed_delay_tb_main",
+        "//sim_lib:cpp_sim_lib",
+    ],
 )

@@ -1,18 +1,18 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "sv_sim_lib",
-  srcs = glob([
-    "*.sv",
-  ]),
-  visibility = ["//visibility:public"],
+    name = "sv_sim_lib",
+    srcs = glob(["*.sv"]),
+    visibility = ["//visibility:public"],
 )
 
-filegroup(
-  name = "cpp_sim_lib",
-  srcs = glob([
-    "*.cpp",
-    "*.cc",
-  ]),
-  visibility = ["//visibility:public"],
+cc_library(
+    name = "cpp_sim_lib",
+    srcs = glob([
+        "*.cpp",
+        "*.cc",
+    ]),
+    visibility = ["//visibility:public"],
+    deps = ["@rules_verilator//verilator:verilated_runtime"],
 )
