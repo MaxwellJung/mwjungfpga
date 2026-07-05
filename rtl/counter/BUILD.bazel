@@ -57,6 +57,9 @@ cc_test(
 verilator_sim_run(
     name = "sim",
     sim_bin = ":sim_bin",
-    tags = ["manual"],
+    tags = [
+        "gui",
+        "manual",
+    ],
     waveform = "counter_tb.vcd",
 )

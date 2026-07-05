@@ -26,11 +26,19 @@ vivado_flow(
     module = ":rvfpganexys",
     module_top = "rvfpganexys",
     part_number = "xc7a100tcsg324-1",
+    tags = [
+        "manual",
+        "vivado",
+    ],
 )
 
 vivado_program_device(
     name = "program_nexys",
     bitstream = ":vivado_rvfpganexys",
+    tags = [
+        "manual",
+        "vivado",
+    ],
 )
 
 verilog_library(

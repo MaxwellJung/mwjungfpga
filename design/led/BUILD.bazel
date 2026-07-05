@@ -20,9 +20,17 @@ vivado_flow(
     module = ":led",
     module_top = "led",
     part_number = "xc7a100tcsg324-1",
+    tags = [
+        "manual",
+        "vivado",
+    ],
 )
 
 vivado_program_device(
     name = "program_nexys",
     bitstream = ":vivado_led",
+    tags = [
+        "manual",
+        "vivado",
+    ],
 )
