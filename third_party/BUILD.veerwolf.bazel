@@ -1,0 +1,14 @@
+filegroup(
+    name = "soc_rtl",
+    srcs = glob([
+        "rtl/**/*.v",
+        "rtl/**/*.sv",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "nexys_a7_top",
+    srcs = ["rtl/veerwolf_nexys_a7.v"],
+    visibility = ["//visibility:public"],
+)

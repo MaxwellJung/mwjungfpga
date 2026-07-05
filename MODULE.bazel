@@ -28,3 +28,19 @@ bazel_dep(name = "rules_vivado", version = "0.4.1")
 # )
 
 register_toolchains("//tools/vivado:vivado_toolchain")
+
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+  name = "veerwolf",
+  urls = ["https://github.com/chipsalliance/VeeRwolf/archive/refs/heads/main.zip"],
+  strip_prefix = "VeeRwolf-main",
+  build_file = "//third_party:BUILD.veerwolf.bazel",
+)
+
+http_archive(
+  name = "veer_el2",
+  urls = ["https://github.com/chipsalliance/Cores-VeeR-EL2/archive/refs/heads/main.zip"],
+  strip_prefix = "Cores-VeeR-EL2-main",
+  build_file = "//third_party:BUILD.veer_el2.bazel",
+)

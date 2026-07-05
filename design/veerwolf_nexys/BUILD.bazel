@@ -1,0 +1,27 @@
+# # design/rvfpganexys/BUILD.bazel
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+# load("@rules_vivado//vivado:defs.bzl", "vivado_flow")
+# load("//rules/vivado:program_device.bzl", "vivado_program_device")
+
+# verilog_library(
+#   name = "veerwolf_nexys",
+#   srcs = [
+#     "@veer_el2//:core_rtl",
+#     "@veerwolf//:soc_rtl",
+#     "@veerwolf//:nexys_a7_top",
+#   ],
+#   top_module = "veerwolf_nexys_a7",
+# )
+
+# vivado_flow(
+#   name = "vivado_veerwolf_nexys",
+#   module = ":veerwolf_nexys",
+#   module_top = "veerwolf_nexys",
+#   part_number = "xc7a100tcsg324-1",
+# )
+
+
+# vivado_program_device(
+#     name = "program_nexys",
+#     bitstream = ":vivado_veerwolf_nexys",
+# )

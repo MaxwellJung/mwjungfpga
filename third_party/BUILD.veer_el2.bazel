@@ -1,0 +1,15 @@
+filegroup(
+    name = "core_rtl",
+    srcs = glob([
+        "design/**/*.sv",
+        "design/**/*.v",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "core_includes",
+    hdrs = glob(["design/include/*.h"]),
+    strip_include_prefix = "design/include",
+    visibility = ["//visibility:public"],
+)
