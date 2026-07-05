@@ -1,74 +1,88 @@
 `timescale 1ns / 1ps
 
-// Import the C library function
 import sim_lib_pkg::output_dir;
 
 module counter_tb;
-  localparam int InitialCount = 0;
-  localparam int MaxCount = 2**16 - 1;
-  localparam int ClkPeriod = 10; // 100 MHz clock
+  localparam int InitialCount = 3;
+  localparam int MaxCount = 7;
+  localparam int NumBits = $clog2(MaxCount + 1);
+  localparam int ClkPeriod = 10;
 
   logic clk;
   logic rst;
   logic en;
-  wire [$clog2(MaxCount + 1)-1:0] count;
+  logic [NumBits-1:0] count;
 
   counter #(
     .InitialCount (InitialCount),
     .MaxCount     (MaxCount)
-  ) counter_inst (
-    .clk_i (clk),
-    .rst_i (rst),
-    .en_i  (en),
+  ) dut (
+    .clk_i   (clk),
+    .rst_i   (rst),
+    .en_i    (en),
     .count_o (count)
   );
 
   initial clk = 0;
-  always #(ClkPeriod / 2.0)
-    clk = ~clk;
+  always #(ClkPeriod / 2.0) clk = ~clk;
 
   initial begin
     $dumpfile({output_dir, "/counter_tb.vcd"});
     $dumpvars(0, counter_tb);
   end
 
-  always begin
-    // pause counter
-    en = 0;
+  task automatic wait_cycles(input int n);
+    repeat (n) @(posedge clk);
+  endtask
 
-    // hold rst for 10 clock cycles
+  task automatic apply_reset(input int cycles = 2);
     rst = 1;
-    repeat (10) @(posedge clk);
+    en = 0;
+    wait_cycles(cycles);
     rst = 0;
-
-    // Wait for 10 clock cycles.
-    repeat (10) @(posedge clk);
-
-    assert (count == 0)
-      else $error("Counter should be zero after reset");
-
-    // start counter for 50 ns
     @(posedge clk);
-    en = 1;
-    repeat (5) @(posedge clk);
+  endtask
+
+  task automatic check_count(input int expected, input string msg);
+    assert (count == expected)
+      else $error("%s: expected %0d, got %0d", msg, expected, count);
+  endtask
+
+  initial begin
+    rst = 1;
     en = 0;
 
-    assert (count == 5)
-      else $error("Counter should be 5 after counting for 5 clock cycles");
+    apply_reset(3);
+    check_count(InitialCount, "after reset");
 
-    // resume counter for 120 ns
-    @(posedge clk);
+    // Counter holds when enable is low.
+    wait_cycles(5);
+    check_count(InitialCount, "while disabled");
+
+    // Count five enabled cycles: 3 -> 4 -> 5 -> 6 -> 7.
     en = 1;
-    repeat (12) @(posedge clk);
+    wait_cycles(4);
     en = 0;
+    check_count(MaxCount, "after counting to max");
 
-    assert (count == 17)
-      else $error("Counter should be 17 after counting for 12 more clock cycles");
+    // Wrap to InitialCount on the next enabled cycle.
+    en = 1;
+    @(posedge clk);
+    en = 0;
+    check_count(InitialCount, "after wrap at max");
 
-    repeat (20) @(posedge clk);
+    // Resume counting from the wrapped value.
+    en = 1;
+    wait_cycles(2);
+    en = 0;
+    check_count(InitialCount + 2, "after two more enabled cycles");
 
-    assert (count == 17)
-      else $error("Counter should remain at 17 when disabled");
+    // Reset clears an in-progress count.
+    en = 1;
+    wait_cycles(3);
+    apply_reset(2);
+    check_count(InitialCount, "after mid-count reset");
+
     $finish;
   end
 

@@ -1,11 +1,11 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "axi_0.25.0",
-  srcs = glob(["src/*.sv"]),
-  hdrs = glob(["include/axi/*.svh"]),
-  deps = [
-    "//design/rvfpganexys/OtherSources/pulp-platform.org__common_cells_1.20.0:common_cells_1.20.0",
-  ],
-  visibility = ["//visibility:public"],
+    name = "axi_0.25.0",
+    srcs = glob(["src/*.sv"]),
+    hdrs = glob(["include/axi/*.svh"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//design/rvfpganexys/OtherSources/pulp-platform.org__common_cells_1.20.0:common_cells_1.20.0",
+    ],
 )

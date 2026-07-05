@@ -1,44 +1,42 @@
-load("@rules_verilog//verilog:defs.bzl", "verilog_library")
-load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
+load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "counter",
-  srcs = [
-    "counter.sv",
-  ],
-  visibility = ["//visibility:public"],
+    name = "counter",
+    srcs = ["counter.sv"],
+    top_module = "counter",
+    visibility = ["//visibility:public"],
 )
 
 verilog_library(
-  name = "counter_tb",
-  srcs = [
-    "counter_tb.sv",
-  ],
-  deps = [
-    ":counter",
-    "//sim_lib:sv_sim_lib",
-  ],
+    name = "counter_tb",
+    srcs = ["counter_tb.sv"],
+    top_module = "counter_tb",
+    deps = [
+        ":counter",
+        "//sim_lib:sv_sim_lib",
+    ],
 )
 
 verilator_cc_library(
-  name = "counter_tb_main",
-  module = ":counter_tb",
-  module_top = "counter_tb",
-  timing = True,
-  trace = True,
-  vopts = [
-    "-Wall",
-    "--main",
-  ],
+    name = "counter_tb_verilated",
+    module = ":counter_tb",
+    module_top = "counter_tb",
+    timing = True,
+    trace = True,
+    vopts = [
+        "-Wall",
+        "--main",
+    ],
 )
 
 cc_test(
-  name = "sim",
-  srcs = [
-    "//sim_lib:cpp_sim_lib",
-  ],
-  deps = [
-    ":counter_tb_main", 
-  ],
+    name = "sim",
+    size = "small",
+    srcs = ["//sim_lib:cpp_sim_timing"],
+    deps = [
+        ":counter_tb_verilated",
+        "//sim_lib:cpp_sim_lib",
+    ],
 )

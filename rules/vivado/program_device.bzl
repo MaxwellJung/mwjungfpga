@@ -1,13 +1,24 @@
-load("@rules_vivado//vivado:providers.bzl", "VivadoRoutingCheckpointInfo")
+"""Rule for programming an FPGA with a Vivado-generated bitstream."""
+
+# buildifier: disable=bzl-visibility
 load(
     "@rules_vivado//vivado/private:common.bzl",
     "TOOLCHAIN_TYPE",
     "get_vivado_toolchain",
-    "run_tcl_template",
 )
 
-
 def create_executable_tcl_sh(*, ctx, template, substitutions, input_files):
+    """Build a shell script that runs Vivado batch programming from a Tcl template.
+
+    Args:
+      ctx: Rule context.
+      template: Tcl template file to expand.
+      substitutions: Template substitution mapping.
+      input_files: Action inputs required at runtime.
+
+    Returns:
+      A list containing DefaultInfo for the generated executable script.
+    """
     env = get_vivado_toolchain(ctx)
     vivado_tcl = ctx.actions.declare_file("{}_run_vivado.tcl".format(ctx.label.name))
 
@@ -21,8 +32,9 @@ def create_executable_tcl_sh(*, ctx, template, substitutions, input_files):
     vivado_command = ""
     if env.xilinx_env:
         vivado_command += "source " + env.xilinx_env.path + " && "
-        
+
     vivado_command += "vivado -mode batch -source " + vivado_tcl.short_path
+
     # Hardcode the log names so they write to the host's current working directory
     vivado_command += " -log program_device.log -journal program_device.jou;"
 
@@ -37,9 +49,8 @@ def create_executable_tcl_sh(*, ctx, template, substitutions, input_files):
         DefaultInfo(
             executable = executable_script,
             runfiles = ctx.runfiles(files = action_inputs),
-        )
+        ),
     ]
-
 
 def _vivado_program_device_impl(ctx):
     if DefaultInfo in ctx.attr.bitstream:
@@ -59,7 +70,6 @@ def _vivado_program_device_impl(ctx):
     )
 
     return default_info
-
 
 vivado_program_device = rule(
     doc = "Program Device.",

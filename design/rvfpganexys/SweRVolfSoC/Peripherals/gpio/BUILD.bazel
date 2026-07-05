@@ -1,12 +1,12 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "gpio",
-  srcs = [
-    "gpio_top.v",
-  ],
-  hdrs = [
-    "gpio_defines.vh",
-  ],
-  visibility = ["//visibility:public"],
+    name = "gpio",
+    srcs = [
+        "gpio_top.v",
+    ],
+    hdrs = [
+        "gpio_defines.vh",
+    ],
+    visibility = ["//visibility:public"],
 )
