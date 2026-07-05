@@ -4,17 +4,13 @@ load("@rules_cc//cc:cc_test.bzl", "cc_test")
 
 verilog_library(
   name = "counter",
-  srcs = [
-    "counter.sv",
-  ],
+  srcs = ["counter.sv"],
   visibility = ["//visibility:public"],
 )
 
 verilog_library(
   name = "counter_tb",
-  srcs = [
-    "counter_tb.sv",
-  ],
+  srcs = ["counter_tb.sv"],
   deps = [
     ":counter",
     "//sim_lib:sv_sim_lib",
@@ -22,7 +18,7 @@ verilog_library(
 )
 
 verilator_cc_library(
-  name = "counter_tb_main",
+  name = "counter_tb_verilated",
   module = ":counter_tb",
   module_top = "counter_tb",
   timing = True,
@@ -35,10 +31,7 @@ verilator_cc_library(
 
 cc_test(
   name = "sim",
-  srcs = [
-    "//sim_lib:cpp_sim_lib",
-  ],
-  deps = [
-    ":counter_tb_main", 
-  ],
+  size = "small",
+  srcs = ["//sim_lib:cpp_sim_lib"],
+  deps = [":counter_tb_verilated"],
 )
