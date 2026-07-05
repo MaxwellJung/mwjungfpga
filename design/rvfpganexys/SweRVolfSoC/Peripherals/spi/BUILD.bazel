@@ -1,10 +1,10 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "spi",
-  srcs = [
-    "simple_spi_top.v",
-    "fifo4.v",
-  ],
-  visibility = ["//visibility:public"],
+    name = "spi",
+    srcs = [
+        "fifo4.v",
+        "simple_spi_top.v",
+    ],
+    visibility = ["//visibility:public"],
 )

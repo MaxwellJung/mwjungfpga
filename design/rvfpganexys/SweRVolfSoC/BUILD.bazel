@@ -1,33 +1,33 @@
-load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "swervolf_core",
-  srcs = [
-    "swervolf_core.v",
-  ],
-  deps = [
-    "//design/rvfpganexys/SweRVolfSoC/SweRVEh1CoreComplex:swerv_eh1_core_complex",
-    "//design/rvfpganexys/SweRVolfSoC/Interconnect/AxiInterconnect:axi_interconnect",
-    "//design/rvfpganexys/SweRVolfSoC/Interconnect/AxiToWb:axi_to_wb",
-    "//design/rvfpganexys/SweRVolfSoC/Interconnect/WishboneInterconnect:wishbone_interconnect",
-    "//design/rvfpganexys/SweRVolfSoC/BootROM:boot_rom",
-    "//design/rvfpganexys/SweRVolfSoC/Peripherals/SystemController:system_controller",
-    "//design/rvfpganexys/SweRVolfSoC/Peripherals/spi:spi",
-    "//design/rvfpganexys/SweRVolfSoC/Peripherals/uart:uart",
-    "//design/rvfpganexys/SweRVolfSoC/Peripherals/gpio:gpio",
-    "//design/rvfpganexys/SweRVolfSoC/Peripherals/ptc:ptc",
-  ],
-  visibility = ["//visibility:public"],
+    name = "swervolf_core",
+    srcs = [
+        "swervolf_core.v",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//design/rvfpganexys/SweRVolfSoC/BootROM:boot_rom",
+        "//design/rvfpganexys/SweRVolfSoC/Interconnect/AxiInterconnect:axi_interconnect",
+        "//design/rvfpganexys/SweRVolfSoC/Interconnect/AxiToWb:axi_to_wb",
+        "//design/rvfpganexys/SweRVolfSoC/Interconnect/WishboneInterconnect:wishbone_interconnect",
+        "//design/rvfpganexys/SweRVolfSoC/Peripherals/SystemController:system_controller",
+        "//design/rvfpganexys/SweRVolfSoC/Peripherals/gpio",
+        "//design/rvfpganexys/SweRVolfSoC/Peripherals/ptc",
+        "//design/rvfpganexys/SweRVolfSoC/Peripherals/spi",
+        "//design/rvfpganexys/SweRVolfSoC/Peripherals/uart",
+        "//design/rvfpganexys/SweRVolfSoC/SweRVEh1CoreComplex:swerv_eh1_core_complex",
+    ],
 )
 
 verilator_cc_library(
-  name = "swervolf_core_verilated",
-  module = ":swervolf_core",
-  module_top = "swervolf_core",
-  trace = True,
-  timing = True,
-  vopts = [
-    "-Wall",
-  ],
+    name = "swervolf_core_verilated",
+    module = ":swervolf_core",
+    module_top = "swervolf_core",
+    timing = True,
+    trace = True,
+    vopts = [
+        "-Wall",
+    ],
 )

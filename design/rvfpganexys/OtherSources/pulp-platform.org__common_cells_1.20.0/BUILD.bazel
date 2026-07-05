@@ -1,8 +1,8 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "common_cells_1.20.0",
-  srcs = glob(["src/*.sv"]),
-  hdrs = glob(["include/common_cells/*.svh"]),
-  visibility = ["//visibility:public"],
+    name = "common_cells_1.20.0",
+    srcs = glob(["src/*.sv"]),
+    hdrs = glob(["include/common_cells/*.svh"]),
+    visibility = ["//visibility:public"],
 )

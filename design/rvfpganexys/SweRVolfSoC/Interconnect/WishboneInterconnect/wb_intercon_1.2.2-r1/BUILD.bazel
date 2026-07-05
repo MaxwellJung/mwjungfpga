@@ -1,7 +1,7 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "wb_intercon_1.2.2-r1",
-  srcs = ["wb_mux.v"],
-  visibility = ["//visibility:public"],
+    name = "wb_intercon_1.2.2-r1",
+    srcs = ["wb_mux.v"],
+    visibility = ["//visibility:public"],
 )

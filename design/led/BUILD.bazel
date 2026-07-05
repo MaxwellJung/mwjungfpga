@@ -3,26 +3,26 @@ load("@rules_vivado//vivado:defs.bzl", "vivado_flow")
 load("//rules:defs.bzl", "vivado_program_device")
 
 verilog_library(
-  name = "led",
-  srcs = [
-    "led.sv",
-  ],
-  data = [
-    "led.xdc",
-  ],
-  deps = [
-    "//rtl/counter:counter",
-  ]
+    name = "led",
+    srcs = [
+        "led.sv",
+    ],
+    data = [
+        "led.xdc",
+    ],
+    deps = [
+        "//rtl/counter",
+    ],
 )
 
 vivado_flow(
-  name = "vivado_led",
-  module = ":led",
-  module_top = "led",
-  part_number = "xc7a100tcsg324-1",
+    name = "vivado_led",
+    module = ":led",
+    module_top = "led",
+    part_number = "xc7a100tcsg324-1",
 )
 
 vivado_program_device(
-  name = "program_nexys",
-  bitstream = ":vivado_led",
+    name = "program_nexys",
+    bitstream = ":vivado_led",
 )

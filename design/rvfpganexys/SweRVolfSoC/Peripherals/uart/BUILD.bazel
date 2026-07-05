@@ -1,20 +1,20 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "uart",
-  srcs = [
-    "uart_top.v",
-    "uart_wb.v",
-    "uart_receiver.v",
-    "uart_transmitter.v",
-    "uart_rfifo.v",
-    "uart_tfifo.v",
-    "uart_regs.v",
-    "raminfr.v",
-    "uart_sync_flops.v",
-  ],
-  hdrs = [
-    "uart_defines.vh",
-  ],
-  visibility = ["//visibility:public"],
+    name = "uart",
+    srcs = [
+        "raminfr.v",
+        "uart_receiver.v",
+        "uart_regs.v",
+        "uart_rfifo.v",
+        "uart_sync_flops.v",
+        "uart_tfifo.v",
+        "uart_top.v",
+        "uart_transmitter.v",
+        "uart_wb.v",
+    ],
+    hdrs = [
+        "uart_defines.vh",
+    ],
+    visibility = ["//visibility:public"],
 )

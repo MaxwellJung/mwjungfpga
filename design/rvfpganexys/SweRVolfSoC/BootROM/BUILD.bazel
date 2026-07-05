@@ -1,15 +1,15 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "boot_rom",
-  srcs = [
-    "wb_mem_wrapper.v",
-    "dpram64.v",
-  ],
-  visibility = ["//visibility:public"],
+    name = "boot_rom",
+    srcs = [
+        "dpram64.v",
+        "wb_mem_wrapper.v",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 exports_files(
-  srcs = ["sw/boot_main.mem"],
-  visibility = ["//visibility:public"],
+    srcs = ["sw/boot_main.mem"],
+    visibility = ["//visibility:public"],
 )

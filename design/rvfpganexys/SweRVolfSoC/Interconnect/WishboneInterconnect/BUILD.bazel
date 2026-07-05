@@ -1,11 +1,11 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "wishbone_interconnect",
-  srcs = ["wb_intercon.v"],
-  hdrs = ["wb_intercon.vh"],
-  deps = [
-    "//design/rvfpganexys/SweRVolfSoC/Interconnect/WishboneInterconnect/wb_intercon_1.2.2-r1:wb_intercon_1.2.2-r1",
-  ],
-  visibility = ["//visibility:public"],
+    name = "wishbone_interconnect",
+    srcs = ["wb_intercon.v"],
+    hdrs = ["wb_intercon.vh"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//design/rvfpganexys/SweRVolfSoC/Interconnect/WishboneInterconnect/wb_intercon_1.2.2-r1",
+    ],
 )

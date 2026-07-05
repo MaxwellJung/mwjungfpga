@@ -1,8 +1,8 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 
 verilog_library(
-  name = "serv_1.0.2",
-  srcs = glob(["rtl/*.v"]),
-  hdrs = glob(["rtl/*.vh"]),
-  visibility = ["//visibility:public"],
+    name = "serv_1.0.2",
+    srcs = glob(["rtl/*.v"]),
+    hdrs = glob(["rtl/*.vh"]),
+    visibility = ["//visibility:public"],
 )
