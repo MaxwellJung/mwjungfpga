@@ -3,6 +3,8 @@
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 
+_HARNESS = "//rules/verilator"
+
 def _verilator_sim_run_impl(ctx):
     sim_bin = ctx.executable.sim_bin
     workspace = ctx.workspace_name
@@ -157,10 +159,10 @@ def verilator_sim(
 
     cc_binary(
         name = bin_name,
-        srcs = ["//sim_lib:cpp_sim_timing"],
+        srcs = [_HARNESS + ":cpp_timing"],
         deps = [
             verilated,
-            "//sim_lib:cpp_sim_lib",
+            _HARNESS + ":cpp_harness",
         ],
         tags = sim_tags,
         visibility = ["//visibility:private"],
@@ -169,10 +171,10 @@ def verilator_sim(
     cc_test(
         name = test_name,
         size = size,
-        srcs = ["//sim_lib:cpp_sim_timing"],
+        srcs = [_HARNESS + ":cpp_timing"],
         deps = [
             verilated,
-            "//sim_lib:cpp_sim_lib",
+            _HARNESS + ":cpp_harness",
         ],
         tags = sim_tags,
         **kwargs

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-import sim_lib_pkg::output_dir;
+import verilator_harness_pkg::output_dir;
 
 module fixed_delay_tb;
   localparam int Delay = 4;

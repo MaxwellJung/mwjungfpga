@@ -1,6 +1,6 @@
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
 load("@rules_verilog//verilog:defs.bzl", "verilog_library")
-load("//sim_lib:verilator_sim.bzl", "verilator_sim")
+load("//rules:defs.bzl", "verilator_sim")
 
 verilog_library(
     name = "fixed_delay",
@@ -14,7 +14,7 @@ verilog_library(
     top_module = "fixed_delay_tb",
     deps = [
         ":fixed_delay",
-        "//sim_lib:sv_sim_lib",
+        "//rules/verilator:sv_harness",
     ],
 )
 
