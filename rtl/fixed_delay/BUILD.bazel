@@ -5,11 +5,13 @@ load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 verilog_library(
     name = "fixed_delay",
     srcs = ["fixed_delay.sv"],
+    top_module = "fixed_delay",
 )
 
 verilog_library(
     name = "fixed_delay_tb",
     srcs = ["fixed_delay_tb.sv"],
+    top_module = "fixed_delay_tb",
     deps = [
         ":fixed_delay",
         "//sim_lib:sv_sim_lib",

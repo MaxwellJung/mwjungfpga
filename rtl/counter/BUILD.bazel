@@ -5,12 +5,14 @@ load("@rules_verilog//verilog:defs.bzl", "verilog_library")
 verilog_library(
     name = "counter",
     srcs = ["counter.sv"],
+    top_module = "counter",
     visibility = ["//visibility:public"],
 )
 
 verilog_library(
     name = "counter_tb",
     srcs = ["counter_tb.sv"],
+    top_module = "counter_tb",
     deps = [
         ":counter",
         "//sim_lib:sv_sim_lib",
