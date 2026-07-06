@@ -17,8 +17,6 @@
 // Concurrent SystemVerilog assertions are unsupported by Verilator (as of
 // 2026-06), so checking is done procedurally against the reference model.
 
-import verilator_harness_pkg::output_dir;
-
 module fixed_delay_tb;
   localparam int Delay = 4;
   localparam int DWidth = 32;
@@ -44,10 +42,8 @@ module fixed_delay_tb;
   initial clk = 0;
   always #(ClkPeriod / 2.0) clk = ~clk;
 
-  initial begin
-    $dumpfile({output_dir, "/fixed_delay_tb.vcd"});
-    $dumpvars(0, fixed_delay_tb);
-  end
+  // Dump a waveform only when launched with +dump=1 (see verilator_harness_pkg).
+  initial verilator_harness_pkg::dump_waves();
 
   // --- Reference model -------------------------------------------------------
   // model[i] mirrors the DUT's internal pipeline stage i for i in 1..Delay.

@@ -50,5 +50,4 @@ verilator_sim_test(
     size = "small",
     sim_bin = ":sim_bin",
     tags = ["gui"],
-    waveform = "fixed_delay_tb.vcd",
 )

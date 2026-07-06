@@ -11,8 +11,6 @@
 // Frames are measured between consecutive v_sync_o pulses, so the run length
 // tracks the timing generator automatically instead of a hardcoded cycle count.
 
-import verilator_harness_pkg::output_dir;
-
 module vga_controller_tb;
   localparam int unsigned ColorDepth = 4;
   localparam int ClkPeriod = 10;          // 100 MHz
@@ -45,10 +43,8 @@ module vga_controller_tb;
   initial clk = 0;
   always #(ClkPeriod / 2.0) clk = ~clk;
 
-  initial begin
-    $dumpfile({output_dir, "/vga_controller_tb.vcd"});
-    $dumpvars(0, vga_controller_tb);
-  end
+  // Dump a waveform only when launched with +dump=1 (see verilator_harness_pkg).
+  initial verilator_harness_pkg::dump_waves();
 
   int errors = 0;
   bit hsync_high_seen = 1'b0;

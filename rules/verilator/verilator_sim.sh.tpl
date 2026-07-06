@@ -5,6 +5,10 @@
 # Usage:
 #   <target> [--gtkwave|--wave] [-- <extra sim args>...]
 #
+# Waveform dumping is conditional: the "+dump=1" plusarg is passed to the
+# simulation only when --gtkwave/--wave is requested, so plain `bazel test`
+# runs do not write a (potentially huge) VCD.
+#
 # Placeholders below are substituted by the verilator_sim_test rule.
 
 # --- begin runfiles.bash initialization v3 ---
@@ -68,6 +72,11 @@ fi
 # existing value (e.g. from `bazel test`) or create a scratch directory.
 out_dir="${TEST_UNDECLARED_OUTPUTS_DIR:-$(mktemp -d -t verilator_sim.XXXXXX)}"
 export TEST_UNDECLARED_OUTPUTS_DIR="$out_dir"
+
+# Only ask the testbench to dump a waveform when we intend to view it.
+if [[ "$open_wave" -eq 1 ]]; then
+  sim_args+=("+dump=1")
+fi
 
 if [[ ${#sim_args[@]} -gt 0 ]]; then
   "$sim_bin" "${sim_args[@]}"

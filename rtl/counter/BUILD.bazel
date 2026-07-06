@@ -51,5 +51,4 @@ verilator_sim_test(
     size = "small",
     sim_bin = ":sim_bin",
     tags = ["gui"],
-    waveform = "counter_tb.vcd",
 )
