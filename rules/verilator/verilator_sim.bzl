@@ -1,6 +1,6 @@
-"""Rule to run a Verilator simulation with optional GTKWave."""
+"""Test rule to run a Verilator simulation with optional GTKWave."""
 
-def _verilator_sim_run_impl(ctx):
+def _verilator_sim_test_impl(ctx):
     sim_bin = ctx.executable.sim_bin
 
     script = ctx.actions.declare_file(ctx.label.name + ".sh")
@@ -25,10 +25,13 @@ def _verilator_sim_run_impl(ctx):
         ),
     ]
 
-verilator_sim_run = rule(
-    doc = "Run a Verilator simulation executable; pass --gtkwave to open the VCD in GTKWave.",
-    implementation = _verilator_sim_run_impl,
-    executable = True,
+verilator_sim_test = rule(
+    doc = (
+        "Run a Verilator simulation as a test. `bazel test` runs it headless; " +
+        "`bazel run <target> -- --gtkwave` runs it and opens the VCD in GTKWave."
+    ),
+    implementation = _verilator_sim_test_impl,
+    test = True,
     attrs = {
         "sim_bin": attr.label(
             doc = "Verilator simulation executable to run.",

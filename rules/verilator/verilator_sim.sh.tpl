@@ -5,7 +5,7 @@
 # Usage:
 #   <target> [--gtkwave|--wave] [-- <extra sim args>...]
 #
-# Placeholders below are substituted by the verilator_sim_run rule.
+# Placeholders below are substituted by the verilator_sim_test rule.
 
 # --- begin runfiles.bash initialization v3 ---
 # Copy-pasted from the Bazel Bash runfiles library v3.

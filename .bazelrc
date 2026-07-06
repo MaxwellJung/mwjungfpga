@@ -14,6 +14,11 @@ common --lockfile_mode=error
 # --- Build UX ---
 build --show_timestamps
 
+# `bazel run //rtl/<module>:sim -- --gtkwave` executes through the test wrapper,
+# which scrubs the environment. Forward PATH so interactive tools (e.g. gtkwave)
+# on the user's PATH remain reachable.
+run --test_env=PATH
+
 # Automatically apply build:linux / build:macos / build:windows sections.
 common --enable_platform_specific_config
 

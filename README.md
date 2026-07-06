@@ -19,12 +19,12 @@ bazel run //design/rvfpganexys:program_nexys
 
 ## RTL simulation
 
-RTL testbenches are built with [rules_verilator](https://github.com/UebelAndre/rules_verilator). Each module declares two simulation targets in its `BUILD.bazel`:
+RTL testbenches are built with [rules_verilator](https://github.com/UebelAndre/rules_verilator). Each module declares two targets in its `BUILD.bazel`:
 
 | Target | Purpose |
 |--------|---------|
-| `:sim_test` | Headless simulation for CI (`cc_test`) |
-| `:sim` | Interactive run (`verilator_sim_run`) of the `:sim_test` binary; pass `--gtkwave` to open the VCD in GTKWave |
+| `:sim_bin` | Compiled Verilator simulation model (`cc_binary`) |
+| `:sim` | `verilator_sim_test` running `:sim_bin`. `bazel test` runs it headless; `bazel run … -- --gtkwave` opens the VCD in GTKWave |
 
 Run all RTL simulations:
 
@@ -35,7 +35,7 @@ bazel test //rtl/...
 Run a single testbench:
 
 ```bash
-bazel test //rtl/counter:sim_test
+bazel test //rtl/counter:sim
 ```
 
 Run interactively and view the waveform (GTKWave must be on `PATH`):
@@ -76,7 +76,7 @@ bazel run //:buildifier
 
 Starlark rules live under `rules/` and are exported from `rules/defs.bzl`:
 
-- `verilator_sim_run` — run a Verilator sim binary; pass `--gtkwave` to open the VCD in GTKWave
+- `verilator_sim_test` — run a Verilator sim binary as a test; pass `--gtkwave` to open the VCD in GTKWave
 - `vivado_program_device` — program an FPGA from a generated bitstream
 
 Shared Verilator simulation support (DPI getenv, `sc_time_stamp`, VCD output paths) lives in `rules/verilator/`.
