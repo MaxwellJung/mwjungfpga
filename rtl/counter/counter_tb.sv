@@ -1,7 +1,5 @@
 `timescale 1ns / 1ps
 
-import verilator_harness_pkg::output_dir;
-
 module counter_tb;
   localparam int InitialCount = 3;
   localparam int MaxCount = 7;
@@ -14,8 +12,8 @@ module counter_tb;
   logic [NumBits-1:0] count;
 
   counter #(
-    .InitialCount (InitialCount),
-    .MaxCount     (MaxCount)
+    .INITIAL_COUNT (InitialCount),
+    .MAX_COUNT     (MaxCount)
   ) dut (
     .clk_i   (clk),
     .rst_i   (rst),
@@ -26,10 +24,8 @@ module counter_tb;
   initial clk = 0;
   always #(ClkPeriod / 2.0) clk = ~clk;
 
-  initial begin
-    $dumpfile({output_dir, "/counter_tb.vcd"});
-    $dumpvars(0, counter_tb);
-  end
+  // Dump a waveform only when launched with +dump=1 (see verilator_harness_pkg).
+  initial verilator_harness_pkg::dump_waves();
 
   task automatic wait_cycles(input int n);
     repeat (n) @(posedge clk);

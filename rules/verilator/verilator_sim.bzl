@@ -41,7 +41,7 @@ verilator_sim_test = rule(
         ),
         "waveform": attr.string(
             doc = "VCD filename written under TEST_UNDECLARED_OUTPUTS_DIR by the testbench.",
-            mandatory = True,
+            default = "dump.vcd",
         ),
         "_template": attr.label(
             default = "//rules/verilator:verilator_sim.sh.tpl",

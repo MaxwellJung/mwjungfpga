@@ -6,25 +6,35 @@ load("//rules:defs.bzl", "verilator_sim_test")
 _VERILATOR_HARNESS = "//rules/verilator"
 
 verilog_library(
-    name = "fixed_delay",
-    srcs = ["fixed_delay.sv"],
-    top_module = "fixed_delay",
+    name = "vga_timing_generator",
+    srcs = ["vga_timing_generator.sv"],
+    top_module = "vga_timing_generator",
+    visibility = ["//visibility:public"],
+    deps = ["//rtl/counter"],
 )
 
 verilog_library(
-    name = "fixed_delay_tb",
-    srcs = ["fixed_delay_tb.sv"],
-    top_module = "fixed_delay_tb",
+    name = "vga_controller",
+    srcs = ["vga_controller.sv"],
+    top_module = "vga_controller",
+    visibility = ["//visibility:public"],
+    deps = [":vga_timing_generator"],
+)
+
+verilog_library(
+    name = "vga_controller_tb",
+    srcs = ["vga_controller_tb.sv"],
+    top_module = "vga_controller_tb",
     deps = [
-        ":fixed_delay",
+        ":vga_controller",
         _VERILATOR_HARNESS + ":sv_harness",
     ],
 )
 
 verilator_cc_library(
-    name = "fixed_delay_tb_main",
-    module = ":fixed_delay_tb",
-    module_top = "fixed_delay_tb",
+    name = "vga_controller_tb_verilated",
+    module = ":vga_controller_tb",
+    module_top = "vga_controller_tb",
     timing = True,
     trace = True,
     vopts = [
@@ -38,13 +48,13 @@ cc_binary(
     name = "sim_bin",
     srcs = [_VERILATOR_HARNESS + ":cpp_timing"],
     deps = [
-        ":fixed_delay_tb_main",
+        ":vga_controller_tb_verilated",
         _VERILATOR_HARNESS + ":cpp_harness",
     ],
 )
 
-# `bazel test //rtl/fixed_delay:sim` runs the sim headless; `bazel run
-# //rtl/fixed_delay:sim -- --gtkwave` runs it and opens the waveform.
+# `bazel test //rtl/vga:sim` runs the sim headless; `bazel run //rtl/vga:sim
+# -- --gtkwave` runs it and opens the waveform.
 verilator_sim_test(
     name = "sim",
     size = "small",
