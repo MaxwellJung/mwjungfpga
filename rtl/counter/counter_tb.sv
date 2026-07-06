@@ -14,8 +14,8 @@ module counter_tb;
   logic [NumBits-1:0] count;
 
   counter #(
-    .InitialCount (InitialCount),
-    .MaxCount     (MaxCount)
+    .INITIAL_COUNT (InitialCount),
+    .MAX_COUNT     (MaxCount)
   ) dut (
     .clk_i   (clk),
     .rst_i   (rst),

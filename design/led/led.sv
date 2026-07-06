@@ -11,8 +11,8 @@ module led (
 
   // Count from 0 to CyclesPerSecond-1 in a loop.
   counter #(
-    .InitialCount (0),
-    .MaxCount     (CyclesPerSecond - 1)
+    .INITIAL_COUNT (0),
+    .MAX_COUNT     (CyclesPerSecond - 1)
   ) counter_100mhz_inst (
     .clk_i (clk_i),
     .rst_i (~rstn_i),
@@ -25,8 +25,8 @@ module led (
   // effectively counting number of seconds elapsed.
   logic [15:0] count_1hz;
   counter #(
-    .InitialCount (0),
-    .MaxCount     (2**16 - 1)
+    .INITIAL_COUNT (0),
+    .MAX_COUNT     (2**16 - 1)
   ) counter_1hz_inst (
     .clk_i (clk_i),
     .rst_i (~rstn_i),
