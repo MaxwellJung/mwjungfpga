@@ -1,0 +1,37 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+load("@rules_vivado//vivado:defs.bzl", "vivado_flow")
+load("//rules:defs.bzl", "vivado_program_device")
+
+verilog_library(
+    name = "vga_top",
+    srcs = [
+        "vga_top.sv",
+    ],
+    data = [
+        "vga_top.xdc",
+    ],
+    deps = [
+        "//rtl/clock_generator",
+        "//rtl/vga:vga_controller",
+    ],
+)
+
+vivado_flow(
+    name = "vivado_vga",
+    module = ":vga_top",
+    module_top = "vga_top",
+    part_number = "xc7a100tcsg324-1",
+    tags = [
+        "manual",
+        "vivado",
+    ],
+)
+
+vivado_program_device(
+    name = "program_nexys",
+    bitstream = ":vivado_vga",
+    tags = [
+        "manual",
+        "vivado",
+    ],
+)

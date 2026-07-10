@@ -1,3 +1,6 @@
+`timescale 1ns / 1ps
+`default_nettype none
+
 module vga_controller #(
   parameter int unsigned COLOR_DEPTH = 4
 ) (
@@ -29,6 +32,7 @@ module vga_controller #(
   );
 
   assign {h_sync_o, v_sync_o} = {h_sync, v_sync};
-  assign {red_o, green_o, blue_o} = pixel_index_valid ? 3*COLOR_DEPTH'(pixel_index) : '0;
+  assign {red_o, green_o, blue_o} = pixel_index_valid ? pixel_index[3*COLOR_DEPTH-1:0] : '0;
 
 endmodule
+`default_nettype wire
