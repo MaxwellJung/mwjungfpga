@@ -1,0 +1,22 @@
+load("@rules_verilog//verilog:defs.bzl", "verilog_library")
+
+# The UNISIM clock-management primitives (MMCME2/PLLE2) instantiated here are
+# Vivado-only and are not understood by Verilator. These targets are tagged
+# "manual" so they are excluded from wildcard builds (//...) and the
+# //rtl/... Verilator lint in CI; depend on them explicitly from designs.
+
+verilog_library(
+    name = "clock_generator",
+    srcs = ["clock_generator.sv"],
+    tags = ["manual"],
+    top_module = "clock_generator",
+    visibility = ["//visibility:public"],
+)
+
+verilog_library(
+    name = "clock_generator_adv",
+    srcs = ["clock_generator_adv.sv"],
+    tags = ["manual"],
+    top_module = "clock_generator_adv",
+    visibility = ["//visibility:public"],
+)
